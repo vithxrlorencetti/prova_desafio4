@@ -76,7 +76,7 @@ public class GeneroDAO {
 
     public void deletarGenero(Genero genero){
 
-        String sql = "DELETE FROM genero WHERE idGenero = ?";
+        String sql = "DELETE FROM generos WHERE idGenero = ?";
 
         try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
@@ -95,6 +95,7 @@ public class GeneroDAO {
         try{
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
             preparedStatement.setString(1, genero.getNomeGenero());
+            preparedStatement.setLong(2, genero.getIdGenero());
             preparedStatement.execute();
             preparedStatement.close();
             System.out.println("\nGenero editado com sucesso!\n");
@@ -103,13 +104,13 @@ public class GeneroDAO {
         }
     }
 
-    public Genero getGeneroById(Long idBiblioteca){
+    public Genero getGeneroById(Long idGenero){
 
         String sql = "SELECT * FROM generos WHERE idGenero = ?";
 
         try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
-            preparedStatement.setLong(1, idBiblioteca);
+            preparedStatement.setLong(1, idGenero);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()){

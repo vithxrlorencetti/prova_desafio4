@@ -53,7 +53,8 @@ public class Menu {
             System.out.println("*                                               *");
             System.out.println("*   [1] CADASTRAR BIBLIOTECA                    *");
             System.out.println("*   [2] LISTAR BIBLIOTECAS                      *");
-            System.out.println("*   [3] VOLTAR                                  *");
+            System.out.println("*   [3] DELETAR BIBLIOTECA                      *");
+            System.out.println("*   [4] VOLTAR                                  *");
             System.out.println("*                                               *");
             System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * *");
 
@@ -67,6 +68,8 @@ public class Menu {
                     bibliotecaView.listarBibliotecas();
                     break;
                 case 3:
+                    bibliotecaView.deletarBiblioteca();
+                case 4:
                     return -1;
             }
         }
@@ -85,7 +88,9 @@ public class Menu {
             System.out.println("*                                               *");
             System.out.println("*   [1] CADASTRAR GÊNERO                        *");
             System.out.println("*   [2] LISTAR GÊNEROS                          *");
-            System.out.println("*   [3] VOLTAR                                  *");
+            System.out.println("*   [3] EDITAR GÊNERO                           *");
+            System.out.println("*   [4] DELETAR GÊNERO                          *");
+            System.out.println("*   [5] VOLTAR                                  *");
             System.out.println("*                                               *");
             System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * *");
 
@@ -99,6 +104,11 @@ public class Menu {
                     generoView.listarGeneros();
                     break;
                 case 3:
+                    generoView.editarGenero();
+                    break;
+                case 4:
+                    generoView.deletarGenero();
+                case 5:
                     return -1;
             }
         }
@@ -119,7 +129,8 @@ public class Menu {
             System.out.println("*   [2] LISTAR TODOS OS LIVROS                  *");
             System.out.println("*   [3] LISTAR LIVROS POR GÊNERO                *");
             System.out.println("*   [4] LISTAR LIVROS POR BIBLIOTECA            *");
-            System.out.println("*   [5] VOLTAR                                  *");
+            System.out.println("*   [5] DELETAR LIVRO                           *");
+            System.out.println("*   [6] VOLTAR                                  *");
             System.out.println("*                                               *");
             System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * *");
 
@@ -139,6 +150,8 @@ public class Menu {
                     livroView.listarLivrosByBiblioteca();
                     break;
                 case 5:
+                    livroView.deletarLivro();
+                case 6:
                     return -1;
             }
         }

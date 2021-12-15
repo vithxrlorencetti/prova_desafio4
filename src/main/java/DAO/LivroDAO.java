@@ -28,7 +28,7 @@ public class LivroDAO {
                 "ON DELETE CASCADE," +
                 "CONSTRAINT fk_idBiblioteca FOREIGN KEY (idBiblioteca)" +
                 "REFERENCES bibliotecas(idBiblioteca)" +
-                "ON DELETE CASCADE" +
+                "ON DELETE CASCADE " +
                 ");";
 
         try {
@@ -103,24 +103,27 @@ public class LivroDAO {
                 "WHERE generos.idGenero = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            GeneroDAO generoDAO = new GeneroDAO();
+            //GeneroDAO generoDAO = new GeneroDAO();
             preparedStatement.setLong(1, idGenero);
-            generoDAO.getGeneroById(idGenero);
+            //generoDAO.getGeneroById(idGenero);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Livro> listarLivrosByGenero = new ArrayList<>();
 
             while (resultSet.next()){
                 Livro livro = new Livro();
-
+//                POR ALGUM MOTIVO ESSA LINHA QUEBRA O CODIGO
+//                livro.setIdLivro(resultSet.getLong("idLivro"));
                 livro.setNomeLivro(resultSet.getString("nomeLivro"));
 
-                Genero genero = generoDAO.getGeneroById(resultSet.getLong("idGenero"));
-                livro.setGeneroLivro(genero);
-
-                BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
-                Biblioteca biblioteca = bibliotecaDAO.getBibliotecaById(resultSet.getLong("idBiblioteca"));
-                livro.setBibliotecaLivro(biblioteca);
+//                ESSE TRECHO TAMBÉM É UM MOTIVO DO ERRO, APESAR DE FUNCIONAR NO LISTAR DE CIMA
+//                GeneroDAO generoDAO = new GeneroDAO();
+//                Genero genero = generoDAO.getGeneroById(resultSet.getLong("idGenero"));
+//                livro.setGeneroLivro(genero);
+//
+//                BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+//                Biblioteca biblioteca = bibliotecaDAO.getBibliotecaById(resultSet.getLong("idBiblioteca"));
+//                livro.setBibliotecaLivro(biblioteca);
 
                 listarLivrosByGenero.add(livro);
             }
@@ -131,16 +134,16 @@ public class LivroDAO {
     }
 
     public List<Livro> listarLivrosByBiblioteca(Long idBiblioteca){
-        String sql = "SELECT livros.nomeLivro, bibliotecas.idBiblioteca," +
-                "FROM livros," +
-                "INNER JOIN bibliotecas," +
+        String sql = "SELECT livros.nomeLivro, bibliotecas.idBiblioteca " +
+                "FROM livros " +
+                "INNER JOIN bibliotecas " +
                 "ON livros.idBiblioteca = bibliotecas.idBiblioteca " +
                 "WHERE bibliotecas.idBiblioteca = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+            //BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
             preparedStatement.setLong(1, idBiblioteca);
-            bibliotecaDAO.getBibliotecaById(idBiblioteca);
+            //bibliotecaDAO.getBibliotecaById(idBiblioteca);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Livro> listarLivrosByBiblioteca = new ArrayList<>();
@@ -149,12 +152,12 @@ public class LivroDAO {
                 Livro livro = new Livro();
 
                 livro.setNomeLivro(resultSet.getString("nomeLivro"));
-                GeneroDAO generoDAO = new GeneroDAO();
-                Genero genero = generoDAO.getGeneroById(resultSet.getLong("idGenero"));
-                livro.setGeneroLivro(genero);
-
-                Biblioteca biblioteca = bibliotecaDAO.getBibliotecaById(resultSet.getLong("idBiblioteca"));
-                livro.setBibliotecaLivro(biblioteca);
+//                GeneroDAO generoDAO = new GeneroDAO();
+//                Genero genero = generoDAO.getGeneroById(resultSet.getLong("idGenero"));
+//                livro.setGeneroLivro(genero);
+//
+//                Biblioteca biblioteca = bibliotecaDAO.getBibliotecaById(resultSet.getLong("idBiblioteca"));
+//                livro.setBibliotecaLivro(biblioteca);
 
                 listarLivrosByBiblioteca.add(livro);
             }
@@ -180,21 +183,22 @@ public class LivroDAO {
 
     public Livro getLivroById(Long idLivro){
 
-        String sql = "SELECT * FROM livros WHERE idLivros = ?";
+        String sql = "SELECT * FROM livros WHERE idLivro = ?";
+        Livro livro = new Livro();
 
         try {
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
             preparedStatement.setLong(1, idLivro);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
-                Livro livro = new Livro();
+            while (resultSet.next()){
+
                 livro.setIdLivro(resultSet.getLong(1));
                 livro.setNomeLivro(resultSet.getString(2));
-                return livro;
-            } else {
-                return null;
             }
+
+            preparedStatement.close();
+            return livro;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
